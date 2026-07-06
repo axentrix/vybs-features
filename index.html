@@ -99,16 +99,21 @@ function loadRive(stateMachine) {
     },
 
     onStateChange: (event) => {
-      console.log(event.data);
+  const states = Array.isArray(event.data)
+    ? event.data
+    : [String(event.data)];
 
-      const states = Array.isArray(event.data)
-        ? event.data
-        : [event.data];
+  console.log("ACTIVE SM:", stateMachine);
+  console.log("STATES:", states);
 
-      if (states.includes("exit")) {
-        overlay.classList.add("show");
-      }
-    },
+  if (states.some(s => String(s).toLowerCase() === "winstate")) {
+    overlay.classList.add("show");
+  }
+
+  if (states.some(s => String(s).toLowerCase() === "exit")) {
+    overlay.classList.add("show");
+  }
+},
 
     onLoadError: (err) => {
       console.error(err);
